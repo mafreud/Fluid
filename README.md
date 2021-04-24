@@ -10,6 +10,7 @@
 - [ ] add / update / delete tasks
 - [ ] signIn/signUp
 - [ ] reminder(FCM using one signal)
+- [ ] write tests
 
 ### platform
 - [ ] android
