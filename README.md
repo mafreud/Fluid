@@ -1,9 +1,9 @@
 # 💧Fluid - Simple/Robust/CrossPlatform todo - app
 
 ## Existing problems other todo-app has
-- [ ] unstability of suyncing
-- [ ] no enough support for many platforms
-- [ ] price
+- unstability of syncing
+- no enough support for many platforms
+- price
 
 ## TODO
 ### Feature
