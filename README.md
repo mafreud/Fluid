@@ -1,4 +1,4 @@
-# 💧Fluid - WIP
+# 💧Fluid - Simple/Robust/CrossPlatform todo - app
 
 ## TODO
 ### Feature
