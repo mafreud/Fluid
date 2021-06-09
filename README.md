@@ -6,6 +6,11 @@
 - no enough support for each platforms (mobile + web + desktop)
 - pricing
 
+## Features
+- Fast-sync, offline suport
+- support ios, android + macOS
+- pay as you go pricing
+
 ## Pricing
 Pay as you have done.
 - 100 tasks = $1
