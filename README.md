@@ -10,6 +10,7 @@
 - Fast-sync, offline suport
 - support ios, android + macOS
 - pay as you go pricing
+- OSS
 
 ## Pricing
 Pay as you have done.
