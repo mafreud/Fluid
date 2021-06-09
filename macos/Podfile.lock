@@ -1,6 +1,14 @@
 PODS:
+  - cloud_firestore (2.2.1):
+    - Firebase/CoreOnly (~> 8.0.0)
+    - Firebase/Firestore (~> 8.0.0)
+    - firebase_core
+    - FlutterMacOS
   - Firebase/CoreOnly (8.0.0):
     - FirebaseCore (= 8.0.0)
+  - Firebase/Firestore (8.0.0):
+    - Firebase/CoreOnly
+    - FirebaseFirestore (~> 8.0.0)
   - firebase_core (1.2.1):
     - Firebase/CoreOnly (~> 8.0.0)
     - FlutterMacOS
@@ -38,6 +46,7 @@ PODS:
   - PromisesObjC (1.2.12)
 
 DEPENDENCIES:
+  - cloud_firestore (from `Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos`)
   - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `8.0.0`)
   - FlutterMacOS (from `Flutter/ephemeral`)
@@ -53,6 +62,8 @@ SPEC REPOS:
     - PromisesObjC
 
 EXTERNAL SOURCES:
+  cloud_firestore:
+    :path: Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos
   firebase_core:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_core/macos
   FirebaseFirestore:
@@ -67,6 +78,7 @@ CHECKOUT OPTIONS:
     :tag: 8.0.0
 
 SPEC CHECKSUMS:
+  cloud_firestore: 0ae86018a51bbafa0701423ce6db57d3ffbee47e
   Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
   firebase_core: 4623e421b8f97b44a02bb0ca8ae1249980149194
   FirebaseCore: 3f09591d51292843e2a46f18358d60bf4e996255
@@ -80,4 +92,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 706722e69277e0dfa887b0352fb45454ba73ce85
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.10.0
