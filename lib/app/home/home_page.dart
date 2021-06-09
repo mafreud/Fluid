@@ -1,7 +1,9 @@
-import 'package:fluid/app/home/home_view_model.dart';
-import 'package:fluid/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
+import '../../colors.dart';
+import 'home_view_model.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -10,16 +12,16 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: FluidColor.baseGrey,
-      body: Center(
-        child: Obx(
-          () => Text('${viewModel.count}'),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
+      body: RawKeyboardListener(
+        autofocus: true,
+        focusNode: viewModel.focusNode,
+        onKey: (RawKeyEvent event) {
+          if (event.logicalKey == LogicalKeyboardKey.enter) {
+            print('enter was pressed');
+          }
           viewModel.increment();
         },
+        child: Center(child: Obx(() => Text("Clicks: ${viewModel.count}"))),
       ),
     );
   }
