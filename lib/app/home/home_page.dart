@@ -16,12 +16,27 @@ class HomePage extends StatelessWidget {
         autofocus: true,
         focusNode: viewModel.focusNode,
         onKey: (RawKeyEvent event) {
-          if (event.logicalKey == LogicalKeyboardKey.enter) {
-            print('enter was pressed');
+          if (event.logicalKey == LogicalKeyboardKey.enter &&
+              event.runtimeType.toString() == "RawKeyDownEvent") {
+            viewModel.increment();
           }
-          viewModel.increment();
         },
-        child: Center(child: Obx(() => Text("Clicks: ${viewModel.count}"))),
+        child: Center(
+          child: Obx(
+            () => ListView.builder(
+              itemCount: viewModel.count.value,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    tileColor: FluidColor.green,
+                    title: Text('TODO title'),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
