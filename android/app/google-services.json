@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "35320203135",
+    "project_id": "fluid-release",
+    "storage_bucket": "fluid-release.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35320203135:android:d4b4a227b982aa545e7c4a",
+        "android_client_info": {
+          "package_name": "com.fluid.release"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35320203135-t5bb4rheo3f1o11gk8na9gnjl6gp6asm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj8cA8SczCm22eSTNNi2-Q9qES-Bjue_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35320203135-t5bb4rheo3f1o11gk8na9gnjl6gp6asm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "35320203135-hadolea187jku5piishade886fmbsnrs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fluid.release"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
