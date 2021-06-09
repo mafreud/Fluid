@@ -1,4 +1,4 @@
-# 💧Fluid - Simple/Robust/CrossPlatform todo - app
+# 💧Fluid - Best todo app in the universe
 
 ## Existing problems other todo-app has
 
