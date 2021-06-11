@@ -11,8 +11,8 @@ class TaskService {
     await _taskRepository.setTask(taskModel);
   }
 
-  Future<void> deleteTask(String taskId) async =>
-      await _taskRepository.deleteTask(taskId);
+  Future<void> finishTask(String taskId) async =>
+      await _taskRepository.finishTask(taskId);
 
   Stream<List<TaskModel>> get taskListStream => _taskRepository.taskListStream;
 }

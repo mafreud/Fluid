@@ -15,8 +15,8 @@ class HomeViewModel extends GetxController {
     await _taskService.createTask(title: title, subtitle: subtitle);
   }
 
-  Future<void> deleteTask(String taskId) async =>
-      await _taskService.deleteTask(taskId);
+  Future<void> finishTask(String taskId) async =>
+      await _taskService.finishTask(taskId);
 
   Stream<List<TaskModel>> get taskListStream => _taskService.taskListStream;
 }

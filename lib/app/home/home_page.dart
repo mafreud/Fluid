@@ -12,8 +12,8 @@ import 'home_view_model.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final HomeViewModel viewModel = Get.put(HomeViewModel());
-    final AuthService authService = Get.put(AuthService());
+    final viewModel = Get.put(HomeViewModel());
+    final authService = Get.put(AuthService());
 
     return Scaffold(
       appBar: AppBar(
@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
                           title: Text(task.createdAt.toString()),
                           trailing: IconButton(
                             onPressed: () async {
-                              await viewModel.deleteTask(task.id);
+                              await viewModel.finishTask(task.id);
                             },
                             icon: Icon(Icons.check),
                           ),

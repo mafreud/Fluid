@@ -6,8 +6,8 @@ class TaskRepository {
   final TaskRemoteDataSource _taskRemoteDataSource =
       Get.put(TaskRemoteDataSource());
 
-  Future<void> deleteTask(String taskId) async =>
-      await _taskRemoteDataSource.deleteTask(taskId);
+  Future<void> finishTask(String taskId) async =>
+      await _taskRemoteDataSource.finishTask(taskId);
 
   Future<void> setTask(TaskModel taskModel) async =>
       await _taskRemoteDataSource.setTask(taskModel.toMap());

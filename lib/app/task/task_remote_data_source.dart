@@ -12,7 +12,7 @@ class TaskRemoteDataSource {
 
   String? get currentUserId => _authService.currentUserId;
 
-  Future<void> deleteTask(String taskId) async {
+  Future<void> finishTask(String taskId) async {
     await _cloudFirestoreService.updateData(
         path: FirestorePath.taskPath(
             userId: _authService.currentUserId, taskId: taskId),
