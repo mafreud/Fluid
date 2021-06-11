@@ -1,4 +1,5 @@
 import 'package:fluid/app/auth/auth_service.dart';
+import 'package:fluid/app/task/task_model.dart';
 import 'package:fluid/app/welcome/sign_up/sign_up_page.dart';
 import 'package:fluid/app/welcome/welcome_page/welcome_page.dart';
 import 'package:flutter/material.dart';
@@ -42,31 +43,44 @@ class HomePage extends StatelessWidget {
       body: Focus(
         onKey: (FocusNode node, RawKeyEvent event) => true,
         child: RawKeyboardListener(
-          autofocus: true,
-          focusNode: viewModel.focusNode,
-          onKey: (RawKeyEvent event) {
-            if (event.logicalKey == LogicalKeyboardKey.enter &&
-                event.runtimeType.toString() == "RawKeyDownEvent") {
-              viewModel.increment();
-            }
-          },
-          child: Center(
-            child: Obx(
-              () => ListView.builder(
-                itemCount: viewModel.count.value,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      tileColor: FluidColor.green,
-                      title: Text('TODO title'),
-                    ),
+            autofocus: true,
+            focusNode: viewModel.focusNode,
+            onKey: (RawKeyEvent event) async {
+              if (event.logicalKey == LogicalKeyboardKey.enter &&
+                  event.runtimeType.toString() == "RawKeyDownEvent") {
+                await viewModel.createTask(
+                    title: 'title', subtitle: 'subtitle');
+              }
+            },
+            child: StreamBuilder<List<TaskModel>>(
+              stream: viewModel.taskListStream,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                },
-              ),
-            ),
-          ),
-        ),
+                }
+                final taskList = snapshot.data!;
+                return ListView.builder(
+                    itemCount: taskList.length,
+                    itemBuilder: (context, index) {
+                      final task = taskList[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: ListTile(
+                          tileColor: FluidColor.green,
+                          title: Text(task.createdAt.toString()),
+                          trailing: IconButton(
+                            onPressed: () async {
+                              await viewModel.deleteTask(task.id);
+                            },
+                            icon: Icon(Icons.check),
+                          ),
+                        ),
+                      );
+                    });
+              },
+            )),
       ),
     );
   }

@@ -17,6 +17,8 @@ dependencies:
   firebase_core: ^1.2.1
   flutter_progress_hud: ^2.0.0
   get: ^4.1.4
+  pedantic: ^1.11.0
+  uuid: ^3.0.4
 
 dev_dependencies:
   flutter_test:

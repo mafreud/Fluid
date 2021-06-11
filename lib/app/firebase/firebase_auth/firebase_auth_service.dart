@@ -5,7 +5,7 @@ class FirebaseAuthService extends GetxController {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   bool isAnonymous() {
-    final isAnonymous = _firebaseAuth.currentUser!.isAnonymous;
+    var isAnonymous = _firebaseAuth.currentUser!.isAnonymous;
     return isAnonymous;
   }
 
@@ -24,7 +24,8 @@ class FirebaseAuthService extends GetxController {
     required String email,
     required String password,
   }) async {
-    _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+    await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
   }
 
   Future<void> register({
@@ -33,7 +34,7 @@ class FirebaseAuthService extends GetxController {
   }) async {
     final credential =
         EmailAuthProvider.credential(email: email, password: password);
-    _firebaseAuth.currentUser!.linkWithCredential(credential);
+    await _firebaseAuth.currentUser!.linkWithCredential(credential);
   }
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();

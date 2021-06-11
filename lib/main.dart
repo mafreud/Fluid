@@ -6,8 +6,6 @@ import 'package:fluid/app/welcome/welcome_page/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'app/auth/auth_service.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -32,8 +30,7 @@ class MyApp extends StatelessWidget {
 class _AuthFlowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuthService firebaseAuthService =
-        Get.put(FirebaseAuthService());
+    final firebaseAuthService = Get.put(FirebaseAuthService());
 
     return StreamBuilder<User?>(
       stream: firebaseAuthService.authStateChanges,

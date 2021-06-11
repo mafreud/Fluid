@@ -36,7 +36,7 @@ class WelcomePage extends StatelessWidget {
                     onPressed: () async {
                       final progress = ProgressHUD.of(context);
                       progress!.show();
-                      final AuthService authService = Get.put(AuthService());
+                      final authService = Get.put(AuthService());
                       await authService.signUpAnonymously();
                       await Navigator.pushReplacement(
                         context,

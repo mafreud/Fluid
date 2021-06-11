@@ -1,20 +1,24 @@
 import 'package:fluid/app/firebase/firebase_auth/firebase_auth_service.dart';
+import 'package:fluid/app/user/user_service.dart';
 import 'package:get/get.dart';
 
 class AuthService extends GetxController {
-  FirebaseAuthService _firebaseAuthService = Get.put(FirebaseAuthService());
+  final FirebaseAuthService _firebaseAuthService =
+      Get.put(FirebaseAuthService());
+  final UserService _userService = Get.put(UserService());
+
+  bool hasRegisteredWithAnonymous() => _firebaseAuthService.isAnonymous();
 
   Future<void> signUpAnonymously() async {
     final currentUserId = await _firebaseAuthService.signUpAnonymously();
-
-    // TODO ユーザーデータを書き込むように変更
+    await _userService.setUser(currentUserId);
   }
 
   Future<void> signInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
-    _firebaseAuthService.signInWithEmailAndPassword(
+    await _firebaseAuthService.signInWithEmailAndPassword(
         email: email, password: password);
   }
 
@@ -27,5 +31,5 @@ class AuthService extends GetxController {
     await _firebaseAuthService.signOut();
   }
 
-  bool hasRegisteredWithAnonymous() => _firebaseAuthService.isAnonymous();
+  String get currentUserId => _firebaseAuthService.currentUserId!;
 }
