@@ -10,6 +10,8 @@ import '../../colors.dart';
 import 'home_view_model.dart';
 
 class HomePage extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Get.put(HomeViewModel());
@@ -44,7 +46,7 @@ class HomePage extends StatelessWidget {
         onKey: (FocusNode node, RawKeyEvent event) => true,
         child: RawKeyboardListener(
             autofocus: true,
-            focusNode: viewModel.focusNode,
+            focusNode: viewModel.desktopFocusNode,
             onKey: (RawKeyEvent event) async {
               if (event.logicalKey == LogicalKeyboardKey.enter &&
                   event.runtimeType.toString() == "RawKeyDownEvent") {
@@ -69,7 +71,25 @@ class HomePage extends StatelessWidget {
                         padding: const EdgeInsets.all(3.0),
                         child: ListTile(
                           tileColor: FluidColor.green,
-                          title: Text(task.createdAt.toString()),
+                          title: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(task.id),
+                            // child: Form(
+                            //   key: _formKey,
+                            //   child: TextFormField(
+                            //     controller: viewModel.textEditingController,
+                            //     validator: (value) {
+                            //       if (value == null || value.isEmpty) {
+                            //         return 'Please enter some text';
+                            //       }
+                            //       if (value.length < 6) {
+                            //         return 'password length must be over 6 words';
+                            //       }
+                            //       return null;
+                            //     },
+                            //   ),
+                            // ),
+                          ),
                           trailing: IconButton(
                             onPressed: () async {
                               await viewModel.finishTask(task.id);

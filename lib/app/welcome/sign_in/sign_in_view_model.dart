@@ -7,7 +7,7 @@ class SignInViewModel extends GetxController {
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
 
-  AuthService _authService = Get.put(AuthService());
+  final AuthService _authService = Get.put(AuthService());
 
   Future<void> signIn() async {
     await _authService.signInWithEmailAndPassword(

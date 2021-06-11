@@ -17,7 +17,7 @@ class TaskRemoteDataSource {
         path: FirestorePath.taskPath(
             userId: _authService.currentUserId, taskId: taskId),
         data: {
-          'hasFiniehd': true,
+          'hasFinished': true,
         });
   }
 

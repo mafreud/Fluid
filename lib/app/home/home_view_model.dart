@@ -5,7 +5,10 @@ import 'package:get/get.dart';
 
 class HomeViewModel extends GetxController {
   final TaskService _taskService = Get.put(TaskService());
-  final FocusNode focusNode = FocusNode();
+  final FocusNode desktopFocusNode = FocusNode();
+
+  final textEditingController = TextEditingController();
+
   // var count = 0.obs;
 
   // void increment() => count++;

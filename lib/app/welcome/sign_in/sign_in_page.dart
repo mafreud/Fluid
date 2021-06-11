@@ -11,7 +11,7 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SignInViewModel viewModel = Get.put(SignInViewModel());
+    final viewModel = Get.put(SignInViewModel());
 
     return ProgressHUD(
       child: Builder(builder: (context) {
