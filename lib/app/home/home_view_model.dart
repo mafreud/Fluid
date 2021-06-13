@@ -18,13 +18,14 @@ class HomeViewModel extends GetxController {
   Future<void> finishTask(SingleTaskModelV1 singleTask, String taskId) async =>
       await _taskService.finishTask(singleTask, taskId);
 
-  // Future<void> updateTaskTitle(String taskId) async {
-  //   await _taskService.updateTaskTitle(
-  //     taskId: taskId,
-  //     taskTitle: taskTitleEditingController.text,
-  //   );
-  //   taskTitleEditingController.clear();
-  // }
+  Future<void> updateTaskOrder(Map<String, dynamic> data, String taskId) async {
+    await _taskService.updateTaskOrder(data, taskId);
+  }
+
+  Future<void> updateTaskTitle(Map<String, dynamic> data, String taskId) async {
+    await _taskService.updateTaskTitle(data, taskId);
+    taskTitleEditingController.clear();
+  }
 
   Future<void> addTask(String taskId) async =>
       await _taskService.addTask(taskId);

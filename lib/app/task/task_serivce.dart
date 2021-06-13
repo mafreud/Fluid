@@ -19,8 +19,16 @@ class TaskService {
   //   await _taskRepository.updateTaskTitle(taskId: taskId, taskTitle: taskTitle);
   // }
 
-  Future<void> addTask(String taskId) async =>
-      await _taskRepository.addTask(SingleTaskModelV1.initialData(), taskId);
+  Future<void> updateTaskOrder(Map<String, dynamic> data, String taskId) async {
+    await _taskRepository.updateTaskListArray(data, taskId);
+  }
+
+  Future<void> addTask(String taskId) async => await _taskRepository
+      .taskArrayUnion(SingleTaskModelV1.initialData(), taskId);
+
+  Future<void> updateTaskTitle(Map<String, dynamic> data, String taskId) async {
+    await _taskRepository.updateTaskListArray(data, taskId);
+  }
 
   Future<void> finishTask(SingleTaskModelV1 singleTask, String taskId) async =>
       await _taskRepository.finishTask(singleTask, taskId);

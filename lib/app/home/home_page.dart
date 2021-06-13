@@ -18,6 +18,10 @@ class HomePage extends StatelessWidget {
     final viewModel = Get.put(HomeViewModel());
     final authService = Get.put(AuthService());
 
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color oddItemColor = colorScheme.primary.withOpacity(0.05);
+    final Color evenItemColor = colorScheme.primary.withOpacity(0.15);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: FluidColor.baseGrey,
@@ -69,30 +73,44 @@ class HomePage extends StatelessWidget {
                 }
               },
               child: Scrollbar(
-                child: ListView.builder(
-                  itemCount: taskList.length,
-                  itemBuilder: (context, index) {
-                    final task = taskList[index];
-                    return GestureDetector(
-                      // onTap: () => showBottomSheet(context, task),
-                      child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: ListTile(
-                          tileColor: FluidColor.green,
-                          title: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(task.title),
-                          ),
-                          trailing: IconButton(
-                            onPressed: () async {
-                              // print(docId);
-                              await viewModel.finishTask(task, docId);
-                            },
-                            icon: Icon(Icons.check),
+                child: ReorderableListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  children: <Widget>[
+                    for (int index = 0; index < taskList.length; index++)
+                      GestureDetector(
+                        onTap: () =>
+                            showBottomSheet(context, taskList, docId, index),
+                        key: Key('$index'),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            leading: IconButton(
+                              icon: Icon(Icons.check),
+                              onPressed: () async {
+                                await viewModel.finishTask(
+                                    taskList[index], docId);
+                              },
+                            ),
+                            tileColor: FluidColor.green,
+                            title: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(taskList[index].title),
+                            ),
                           ),
                         ),
                       ),
-                    );
+                  ],
+                  onReorder: (int oldIndex, int newIndex) async {
+                    if (oldIndex < newIndex) {
+                      newIndex -= 1;
+                    }
+
+                    final result = taskList.removeAt(oldIndex);
+
+                    taskList.insert(newIndex, result);
+                    final rawTaskList = taskList.map((e) => e.toMap()).toList();
+                    await viewModel
+                        .updateTaskOrder({'taskList': rawTaskList}, docId);
                   },
                 ),
               ),
@@ -103,9 +121,15 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Future<void> showBottomSheet(BuildContext context, TaskModelV1 taskModel) {
+  Future<void> showBottomSheet(
+    BuildContext context,
+    List<SingleTaskModelV1> singleTaskModelList,
+    String taskId,
+    int index,
+  ) {
     final viewModel = Get.put(HomeViewModel());
     final screenHeight = MediaQuery.of(context).size.height;
+    final singleTask = singleTaskModelList[index];
 
     return showModalBottomSheet<void>(
       context: context,
@@ -124,7 +148,7 @@ class HomePage extends StatelessWidget {
                     controller: viewModel.taskTitleEditingController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'taskModel.title',
+                      hintText: singleTask.title,
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -139,7 +163,18 @@ class HomePage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    // await viewModel.updateTaskTitle(taskModel.id);
+                    var singleTask = singleTaskModelList[index];
+                    singleTask = singleTask.copyWith(
+                      title: viewModel.taskTitleEditingController.text,
+                    );
+                    singleTaskModelList[index] = singleTask;
+                    final rawTaskList =
+                        singleTaskModelList.map((e) => e.toMap()).toList();
+
+                    await viewModel.updateTaskTitle(
+                      {'taskList': rawTaskList},
+                      taskId,
+                    );
                     Navigator.pop(context);
                   },
                   child: const Text('Submit'),

@@ -14,6 +14,20 @@ class SingleTaskModelV1 {
   final DateTime updatedAt;
   final String title;
 
+  SingleTaskModelV1 copyWith({
+    String? id,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? title,
+  }) {
+    return SingleTaskModelV1(
+      id ?? this.id,
+      createdAt ?? this.createdAt,
+      updatedAt ?? this.updatedAt,
+      title ?? this.title,
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,

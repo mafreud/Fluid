@@ -7,8 +7,9 @@ class TaskRepository {
   final TaskRemoteDataSource _taskRemoteDataSource =
       Get.put(TaskRemoteDataSource());
 
-  Future<void> addTask(SingleTaskModelV1 taskModel, String taskId) async =>
-      await _taskRemoteDataSource.addTask(taskModel.toMap(), taskId);
+  Future<void> taskArrayUnion(
+          SingleTaskModelV1 taskModel, String taskId) async =>
+      await _taskRemoteDataSource.taskArrayUnion(taskModel.toMap(), taskId);
 
   Future<void> finishTask(SingleTaskModelV1 taskModel, String taskId) async =>
       await _taskRemoteDataSource.finishTask(taskModel.toMap(), taskId);
@@ -18,6 +19,11 @@ class TaskRepository {
   //   await _taskRemoteDataSource.updateTaskTitle(
   //       taskId: taskId, taskTitle: taskTitle);
   // }
+
+  Future<void> updateTaskListArray(
+      Map<String, dynamic> data, String taskId) async {
+    await _taskRemoteDataSource.updateTaskListArray(data, taskId);
+  }
 
   Future<void> setInitialInbox(TaskModelV1 taskModel) async =>
       await _taskRemoteDataSource.setInitialInbox(taskModel.toMap());

@@ -12,6 +12,17 @@ class TaskRemoteDataSource {
 
   String get currentUserId => _authService.currentUserId;
 
+  Future<void> updateTaskListArray(
+      Map<String, dynamic> data, String taskId) async {
+    await _cloudFirestoreService.updateData(
+      path: FirestorePath.taskPath(
+        userId: currentUserId,
+        taskId: taskId,
+      ),
+      data: data,
+    );
+  }
+
   Future<void> finishTask(Map<String, dynamic> data, String taskId) async {
     await _cloudFirestoreService.removeArrayElement(
       path: FirestorePath.taskPath(
@@ -23,7 +34,7 @@ class TaskRemoteDataSource {
     );
   }
 
-  Future<void> addTask(Map<String, dynamic> data, String taskId) async {
+  Future<void> taskArrayUnion(Map<String, dynamic> data, String taskId) async {
     await _cloudFirestoreService.updateArrayElement(
       path: FirestorePath.taskPath(
         userId: currentUserId,
@@ -43,17 +54,6 @@ class TaskRemoteDataSource {
       data: data,
     );
   }
-
-  // Future<void> updateTaskTitle(
-  //     {required String taskId, required String taskTitle}) async {
-  //   await _cloudFirestoreService.updateData(
-  //     path: FirestorePath.taskPath(
-  //       userId: _authService.currentUserId,
-  //       taskId: taskId,
-  //     ),
-  //     data: {'title': taskTitle},
-  //   );
-  // }
 
   Stream<List<TaskModelV1>> get inboxTaskListStream {
     return _cloudFirestoreService.collectionStream(
