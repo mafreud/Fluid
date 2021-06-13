@@ -7,11 +7,7 @@ class HomeViewModel extends GetxController {
   final TaskService _taskService = Get.put(TaskService());
   final FocusNode desktopFocusNode = FocusNode();
 
-  final textEditingController = TextEditingController();
-
-  // var count = 0.obs;
-
-  // void increment() => count++;
+  final taskTitleEditingController = TextEditingController();
 
   Future<void> createTask(
       {required String title, required String subtitle}) async {
@@ -20,6 +16,14 @@ class HomeViewModel extends GetxController {
 
   Future<void> finishTask(String taskId) async =>
       await _taskService.finishTask(taskId);
+
+  Future<void> updateTaskTitle(String taskId) async {
+    await _taskService.updateTaskTitle(
+      taskId: taskId,
+      taskTitle: taskTitleEditingController.text,
+    );
+    taskTitleEditingController.clear();
+  }
 
   Stream<List<TaskModel>> get taskListStream => _taskService.taskListStream;
 }

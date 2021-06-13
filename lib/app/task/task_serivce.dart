@@ -14,5 +14,10 @@ class TaskService {
   Future<void> finishTask(String taskId) async =>
       await _taskRepository.finishTask(taskId);
 
+  Future<void> updateTaskTitle(
+      {required String taskId, required String taskTitle}) async {
+    await _taskRepository.updateTaskTitle(taskId: taskId, taskTitle: taskTitle);
+  }
+
   Stream<List<TaskModel>> get taskListStream => _taskRepository.taskListStream;
 }

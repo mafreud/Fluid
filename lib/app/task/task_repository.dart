@@ -12,6 +12,12 @@ class TaskRepository {
   Future<void> setTask(TaskModel taskModel) async =>
       await _taskRemoteDataSource.setTask(taskModel.toMap());
 
+  Future<void> updateTaskTitle(
+      {required String taskId, required String taskTitle}) async {
+    await _taskRemoteDataSource.updateTaskTitle(
+        taskId: taskId, taskTitle: taskTitle);
+  }
+
   Stream<List<TaskModel>> get taskListStream =>
       _taskRemoteDataSource.taskListStream;
 }

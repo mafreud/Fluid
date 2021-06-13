@@ -31,6 +31,17 @@ class TaskRemoteDataSource {
     );
   }
 
+  Future<void> updateTaskTitle(
+      {required String taskId, required String taskTitle}) async {
+    await _cloudFirestoreService.updateData(
+      path: FirestorePath.taskPath(
+        userId: _authService.currentUserId,
+        taskId: taskId,
+      ),
+      data: {'title': taskTitle},
+    );
+  }
+
   Stream<List<TaskModel>> get taskListStream {
     return _cloudFirestoreService.collectionStream(
         path: FirestorePath.taskDomain(_authService.currentUserId),

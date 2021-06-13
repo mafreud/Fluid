@@ -67,34 +67,22 @@ class HomePage extends StatelessWidget {
                     itemCount: taskList.length,
                     itemBuilder: (context, index) {
                       final task = taskList[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: ListTile(
-                          tileColor: FluidColor.green,
-                          title: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(task.id),
-                            // child: Form(
-                            //   key: _formKey,
-                            //   child: TextFormField(
-                            //     controller: viewModel.textEditingController,
-                            //     validator: (value) {
-                            //       if (value == null || value.isEmpty) {
-                            //         return 'Please enter some text';
-                            //       }
-                            //       if (value.length < 6) {
-                            //         return 'password length must be over 6 words';
-                            //       }
-                            //       return null;
-                            //     },
-                            //   ),
-                            // ),
-                          ),
-                          trailing: IconButton(
-                            onPressed: () async {
-                              await viewModel.finishTask(task.id);
-                            },
-                            icon: Icon(Icons.check),
+                      return GestureDetector(
+                        onTap: () => showBottomSheet(context, task),
+                        child: Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: ListTile(
+                            tileColor: FluidColor.green,
+                            title: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(task.title),
+                            ),
+                            trailing: IconButton(
+                              onPressed: () async {
+                                await viewModel.finishTask(task.id);
+                              },
+                              icon: Icon(Icons.check),
+                            ),
                           ),
                         ),
                       );
@@ -102,6 +90,55 @@ class HomePage extends StatelessWidget {
               },
             )),
       ),
+    );
+  }
+
+  Future<void> showBottomSheet(BuildContext context, TaskModel taskModel) {
+    final viewModel = Get.put(HomeViewModel());
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: screenHeight * 0.8,
+          color: FluidColor.darkGreen,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: viewModel.taskTitleEditingController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: taskModel.title,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      if (!value.contains('@')) {
+                        return 'Enter your email address';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    await viewModel.updateTaskTitle(taskModel.id);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Submit'),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
