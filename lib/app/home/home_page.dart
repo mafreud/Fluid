@@ -1,5 +1,6 @@
 import 'package:fluid/app/auth/auth_service.dart';
-import 'package:fluid/app/task/task_model.dart';
+import 'package:fluid/app/task/single_task_model_v1.dart';
+import 'package:fluid/app/task/task_model_v1.dart';
 import 'package:fluid/app/welcome/sign_up/sign_up_page.dart';
 import 'package:fluid/app/welcome/welcome_page/welcome_page.dart';
 import 'package:flutter/material.dart';
@@ -42,58 +43,67 @@ class HomePage extends StatelessWidget {
         ],
       ),
       backgroundColor: FluidColor.baseGrey,
-      body: Focus(
-        onKey: (FocusNode node, RawKeyEvent event) => true,
-        child: RawKeyboardListener(
-            autofocus: true,
-            focusNode: viewModel.desktopFocusNode,
-            onKey: (RawKeyEvent event) async {
-              if (event.logicalKey == LogicalKeyboardKey.enter &&
-                  event.runtimeType.toString() == "RawKeyDownEvent") {
-                await viewModel.createTask(
-                    title: 'title', subtitle: 'subtitle');
-              }
-            },
-            child: StreamBuilder<List<TaskModel>>(
-              stream: viewModel.taskListStream,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+      body: StreamBuilder<List<TaskModelV1>>(
+        stream: viewModel.taskListStream,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          final data = snapshot.data!;
+          final docId = data.first.id;
+          final taskList = data.first.taskList
+              .map((e) => SingleTaskModelV1.fromMap(e))
+              .toList();
+
+          return Focus(
+            onKey: (FocusNode node, RawKeyEvent event) => true,
+            child: RawKeyboardListener(
+              autofocus: true,
+              focusNode: viewModel.desktopFocusNode,
+              onKey: (RawKeyEvent event) async {
+                if (event.logicalKey == LogicalKeyboardKey.enter &&
+                    event.runtimeType.toString() == 'RawKeyDownEvent') {
+                  await viewModel.addTask(docId);
                 }
-                final taskList = snapshot.data!;
-                return ListView.builder(
-                    itemCount: taskList.length,
-                    itemBuilder: (context, index) {
-                      final task = taskList[index];
-                      return GestureDetector(
-                        onTap: () => showBottomSheet(context, task),
-                        child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: ListTile(
-                            tileColor: FluidColor.green,
-                            title: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(task.title),
-                            ),
-                            trailing: IconButton(
-                              onPressed: () async {
-                                await viewModel.finishTask(task.id);
-                              },
-                              icon: Icon(Icons.check),
-                            ),
+              },
+              child: Scrollbar(
+                child: ListView.builder(
+                  itemCount: taskList.length,
+                  itemBuilder: (context, index) {
+                    final task = taskList[index];
+                    return GestureDetector(
+                      // onTap: () => showBottomSheet(context, task),
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: ListTile(
+                          tileColor: FluidColor.green,
+                          title: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(task.title),
+                          ),
+                          trailing: IconButton(
+                            onPressed: () async {
+                              // print(docId);
+                              await viewModel.finishTask(task, docId);
+                            },
+                            icon: Icon(Icons.check),
                           ),
                         ),
-                      );
-                    });
-              },
-            )),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  Future<void> showBottomSheet(BuildContext context, TaskModel taskModel) {
+  Future<void> showBottomSheet(BuildContext context, TaskModelV1 taskModel) {
     final viewModel = Get.put(HomeViewModel());
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -114,7 +124,7 @@ class HomePage extends StatelessWidget {
                     controller: viewModel.taskTitleEditingController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: taskModel.title,
+                      hintText: 'taskModel.title',
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -129,7 +139,7 @@ class HomePage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await viewModel.updateTaskTitle(taskModel.id);
+                    // await viewModel.updateTaskTitle(taskModel.id);
                     Navigator.pop(context);
                   },
                   child: const Text('Submit'),

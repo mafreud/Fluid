@@ -22,6 +22,30 @@ class CloudFirestoreService {
     await reference.add(data);
   }
 
+  Future<void> updateArrayElement({
+    required String path,
+    required Map<String, dynamic> data,
+    required String fieldName,
+  }) async {
+    final reference = FirebaseFirestore.instance.doc(path);
+    print('$path: $data');
+    await reference.update({
+      fieldName.toString(): FieldValue.arrayUnion([data])
+    });
+  }
+
+  Future<void> removeArrayElement({
+    required String path,
+    required Map<String, dynamic> data,
+    required String fieldName,
+  }) async {
+    final reference = FirebaseFirestore.instance.doc(path);
+    print('$path: $data');
+    await reference.update({
+      fieldName.toString(): FieldValue.arrayRemove([data])
+    });
+  }
+
   Future<void> updateData({
     required String path,
     required Map<String, dynamic> data,

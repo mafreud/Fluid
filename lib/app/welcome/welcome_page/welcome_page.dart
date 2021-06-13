@@ -1,3 +1,4 @@
+import 'package:fluid/app/task/task_serivce.dart';
 import 'package:fluid/app/welcome/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
@@ -37,7 +38,11 @@ class WelcomePage extends StatelessWidget {
                       final progress = ProgressHUD.of(context);
                       progress!.show();
                       final authService = Get.put(AuthService());
+                      final taskService = Get.put(TaskService());
+
                       await authService.signUpAnonymously();
+                      await taskService.setInitialInbox();
+
                       await Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
