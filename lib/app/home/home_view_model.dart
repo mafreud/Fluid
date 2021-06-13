@@ -9,6 +9,11 @@ class HomeViewModel extends GetxController {
   final FocusNode desktopFocusNode = FocusNode();
 
   final taskTitleEditingController = TextEditingController();
+  var taskId = ''.obs;
+
+  void setTaskId(RxString value) {
+    taskId = value;
+  }
 
   // Future<void> createTask(
   //     {required String title, required String subtitle}) async {

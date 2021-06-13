@@ -11,18 +11,17 @@ import '../../colors.dart';
 import 'home_view_model.dart';
 
 class HomePage extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     final viewModel = Get.put(HomeViewModel());
     final authService = Get.put(AuthService());
 
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color oddItemColor = colorScheme.primary.withOpacity(0.05);
-    final Color evenItemColor = colorScheme.primary.withOpacity(0.15);
-
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: FluidColor.green,
+        onPressed: () => viewModel.addTask(viewModel.taskId.string),
+        child: Icon(Icons.add),
+      ),
       appBar: AppBar(
         backgroundColor: FluidColor.baseGrey,
         title: Text('Home'),
@@ -60,6 +59,7 @@ class HomePage extends StatelessWidget {
           final taskList = data.first.taskList
               .map((e) => SingleTaskModelV1.fromMap(e))
               .toList();
+          viewModel.setTaskId(docId.obs);
 
           return Focus(
             onKey: (FocusNode node, RawKeyEvent event) => true,
